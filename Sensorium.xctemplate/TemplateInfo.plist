@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Ancestors</key>
+	<array>
+		<string>com.apple.dt.unit.storyboardApplication</string>
+	</array>
+	<key>Concrete</key>
+	<true/>
+	<key>Definitions</key>
+	<dict>
+		<key>___VARIABLE_classPrefix:identifier___ViewController.h</key>
+		<dict>
+			<key>Path</key>
+			<string>ViewController.h</string>
+		</dict>
+		<key>___VARIABLE_classPrefix:identifier___ViewController.m</key>
+		<dict>
+			<key>Path</key>
+			<string>ViewController.m</string>
+		</dict>
+		<key>___VARIABLE_classPrefix:identifier___Helper.h</key>
+		<dict>
+			<key>Path</key>
+			<string>Helper.h</string>
+			<key>Group</key>
+			<array>
+			<string>Sensorium Helpers</string>
+			</array>
+		</dict>
+		<key>___VARIABLE_classPrefix:identifier___Helper.m</key>
+		<dict>
+			<key>Path</key>
+			<string>Helper.m</string>
+			<key>Group</key>
+			<array>
+			<string>Sensorium Helpers</string>
+			</array>
+
+		</dict>
+		<key>___VARIABLE_classPrefix:identifier___Constants.h</key>
+		<dict>
+			<key>Path</key>
+			<string>Constants.h</string>
+			<key>Group</key>
+			<array>
+			<string>Sensorium Helpers</string>
+			</array>
+		</dict>
+		<key>AutoGenGitData.h</key>
+		<dict>
+			<key>Path</key>
+			<string>AutoGenGitData.h</string>
+			<key>Group</key>
+			<array>
+			<string>Sensorium Helpers</string>
+			</array>
+		</dict>
+	</dict>
+	<key>Description</key>
+	<string>The Sensorium Xcode template.</string>
+	<key>Identifier</key>
+	<string>com.apple.dt.unit.singleViewApplicationSensorium</string>
+	<key>Kind</key>
+	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
+	<key>Nodes</key>
+	<array>
+		<string>___PACKAGENAME___-Prefix.pch:Availability:iPhoneAvailability:5</string>
+		<string>___PACKAGENAME___-Info.plist:UIStatusBarHidden</string>
+		<string>___VARIABLE_classPrefix:identifier___ViewController.h</string>
+		<string>___VARIABLE_classPrefix:identifier___ViewController.m</string>
+		<string>___VARIABLE_classPrefix:identifier___Helper.h</string>
+		<string>___VARIABLE_classPrefix:identifier___Helper.m</string>
+		<string>___VARIABLE_classPrefix:identifier___Constants.h</string>
+		<string>AutoGenGitData.h</string>
+	</array>
+	<key>Options</key>
+	<array>
+		<dict>
+			<key>Identifier</key>
+			<string>universalDeviceFamily</string>
+			<key>Units</key>
+			<dict>
+				<key>iPhone</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>Images.xcassets</key>
+						<dict>
+							<key>Path</key>
+							<string>Images-iPhone.xcassets</string>
+							<key>SortOrder</key>
+							<integer>100</integer>
+						</dict>
+						<key>Base.lproj/Main.storyboard</key>
+						<dict>
+							<key>Path</key>
+							<string>Main_iPhone.storyboard</string>
+						</dict>
+					</dict>
+				</dict>
+				<key>iPad</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>Images.xcassets</key>
+						<dict>
+							<key>Path</key>
+							<string>Images-iPad.xcassets</string>
+							<key>SortOrder</key>
+							<integer>100</integer>
+						</dict>
+						<key>Base.lproj/Main.storyboard</key>
+						<dict>
+							<key>Path</key>
+							<string>Main_iPad.storyboard</string>
+						</dict>
+					</dict>
+				</dict>
+				<key>Universal</key>
+				<dict>
+					<key>Definitions</key>
+					<dict>
+						<key>Images.xcassets</key>
+						<dict>
+							<key>Path</key>
+							<string>Images-Universal.xcassets</string>
+							<key>SortOrder</key>
+							<integer>100</integer>
+						</dict>
+						<key>Base.lproj/Main_iPhone.storyboard</key>
+						<dict>
+							<key>Path</key>
+							<string>Main_iPhone.storyboard</string>
+						</dict>
+						<key>Base.lproj/Main_iPad.storyboard</key>
+						<dict>
+							<key>Path</key>
+							<string>Main_iPad.storyboard</string>
+						</dict>
+					</dict>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+	<key>Targets</key>
+	<array>
+		<dict>
+			<key>BuildPhases</key>
+			<array>
+				<dict>
+					<key>Class</key>
+					<string>ShellScript</string>
+					<key>ShellPath</key>
+					<string>/bin/sh</string>
+					<key>ShellScript</key>
+					<string>
+					buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$INFOPLIST_FILE")
+					buildNumber=`echo $buildNumber +1|bc`
+					/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "$INFOPLIST_FILE"
+					# build data file that is included in the source
+					# so we can automatically report Git repo information
+					# in the application
+
+					cd ${PROJECT_DIR}/${PROJECT_NAME}/
+					gitDataFile="AutoGenGitData.h"
+					buildDate=`date "+%F %H:%M:%S"`
+					currentBranch=`git rev-parse --abbrev-ref HEAD`
+					lastCommitHash=`git log --pretty=format:"%h" -1`
+					lastCommitDate=`git log --pretty=format:"%ad" --date=short -1`
+					lastCommitComment=`git log --pretty=format:"%s" -1`
+					lastRepoTag=`git describe --abbrev=0 --tags`
+					repositoryTag=`git config --get remote.origin.url`
+
+					echo -e "//-----------------------------------------" > $gitDataFile
+					echo -e "// Auto generated file" >> $gitDataFile
+					echo -e "// Created $buildDate" >> $gitDataFile
+					echo -e "//-----------------------------------------" >> $gitDataFile
+					echo -e "" >> $gitDataFile
+					echo -e "#define BUILD_DATE              @\"$buildDate\"" >> $gitDataFile
+					echo -e "#define GIT_CURRENT_BRANCH      @\"$currentBranch\"" >> $gitDataFile
+					echo -e "#define GIT_LAST_COMMIT_HASH    @\"$lastCommitHash\"" >> $gitDataFile
+					echo -e "#define GIT_LAST_COMMIT_DATE    @\"$lastCommitDate\"" >> $gitDataFile
+					echo -e "#define GIT_LAST_COMMIT_COMMENT @\"$lastCommitComment\"" >> $gitDataFile
+					echo -e "#define GIT_LAST_REPO_TAG       @\"$lastRepoTag\"" >> $gitDataFile
+					echo -e "#define GIT_REPO_TAG            @\"$repositoryTag\"" >> $gitDataFile
+					</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>ShellScript</string>
+					<key>ShellPath</key>
+					<string>/bin/sh</string>
+					<key>ShellScript</key>
+					<string>osascript -e 'tell app "iPhone Simulator" to quit'</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Frameworks</key>
+			<array>
+				<string>AudioToolbox</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
